@@ -286,7 +286,7 @@ var transactionController = {
     }); },
     // admin
     getRevenue: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, e_8;
+        var data, count, e_8;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -296,7 +296,8 @@ var transactionController = {
                         })];
                 case 1:
                     data = _a.sent();
-                    handler_1.success.get(res, data);
+                    count = data[0];
+                    handler_1.success.get(res, count.revenue);
                     return [3 /*break*/, 3];
                 case 2:
                     e_8 = _a.sent();
@@ -307,7 +308,7 @@ var transactionController = {
         });
     }); },
     getTransactionCount: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, e_9;
+        var data, count, e_9;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -317,7 +318,8 @@ var transactionController = {
                         })];
                 case 1:
                     data = _a.sent();
-                    handler_1.success.get(res, data);
+                    count = data[0];
+                    handler_1.success.get(res, count);
                     return [3 /*break*/, 3];
                 case 2:
                     e_9 = _a.sent();
