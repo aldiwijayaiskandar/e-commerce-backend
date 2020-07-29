@@ -333,17 +333,7 @@ const transactionController = {
   getOrder: async (req: Request, res: Response) => {
     try {
       let data = await sequelize.query(
-        `select i.item_id,i.name,SUM(i.satuan*ti.qty) as itemqty,si.name as satuan,d.nama as dropzone,t.schedule_time,t.arrived_time from
-          customer_address as ca,kelurahan as k,kelurahan_dropzone as kd,dropzone as d,transaction as t,transaction_item as ti,item as i,satuan_item as si where
-          t.arrived_time IS NULL AND
-          t.address_id = ca.address_id AND
-          ca.kelurahan_id = k.kelurahan_id AND
-          k.kelurahan_id = kd.kelurahan_id AND
-          kd.dropzone_id = d.dropzone_id AND
-          t.transaction_id = ti.transaction_id AND
-          ti.item_id = i.item_id AND
-          i.satuan_id = si.satuan_id AND
-          t.payment_time is not null GROUP BY(i.item_id,si.satuan_id, d.dropzone_id,t.schedule_time,t.arrived_time) order by schedule_time asc;`,
+        `select transaction_id,amount,schedule_time from transaction where payment_time is not null and arrived_time is null order by payment_time asc`,
         {
           type: QueryTypes.SELECT,
         }
@@ -380,7 +370,7 @@ const transactionController = {
           type: QueryTypes.SELECT,
         }
       );
-      success.get(res, { detail: data, user: user[0] });
+      res.status(200).json({ detail: data, user: user[0] });
     } catch (e) {
       serverErrorResponse(res, e);
     }
