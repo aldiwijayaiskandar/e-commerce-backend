@@ -70,27 +70,27 @@ var credentialController = {
         });
     }); },
     searchEmail: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var email, data, found, e_2;
+        var email, found, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     email = req.body.email;
-                    return [4 /*yield*/, db_1.default.query("select COUNT(*) as emailFound from customer where LOWER(email) = " + email.toLocaleLowerCase(), {
-                            type: sequelize_1.QueryTypes.SELECT,
+                    return [4 /*yield*/, Sequelize_1.SequelizeModel.Customer.count({
+                            where: { email: email },
                         })];
                 case 1:
-                    data = _a.sent();
-                    found = data[0];
-                    if (found.emailFound) {
-                        next();
+                    found = _a.sent();
+                    if (found) {
+                        handler_1.clientError.beenUsed(res, "Email have been used");
                     }
                     else {
-                        handler_1.clientError.beenUsed(res, "Email have been used");
+                        next();
                     }
                     return [3 /*break*/, 3];
                 case 2:
                     e_2 = _a.sent();
+                    console.log(e_2);
                     handler_1.serverErrorResponse(res, e_2);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
@@ -98,23 +98,22 @@ var credentialController = {
         });
     }); },
     searchPhoneNum: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var phone_number, data, found, e_3;
+        var phone_number, found, e_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     phone_number = req.body.phone_number;
-                    return [4 /*yield*/, db_1.default.query("select COUNT(*) as phoneFound from customer where phone_number = " + phone_number.toLocaleLowerCase(), {
-                            type: sequelize_1.QueryTypes.SELECT,
+                    return [4 /*yield*/, Sequelize_1.SequelizeModel.Customer.count({
+                            where: { phone_number: phone_number },
                         })];
                 case 1:
-                    data = _a.sent();
-                    found = data[0];
-                    if (found.phoneFound) {
-                        next();
+                    found = _a.sent();
+                    if (found) {
+                        handler_1.clientError.beenUsed(res, "Phone Number have been used");
                     }
                     else {
-                        handler_1.clientError.beenUsed(res, "Phone Number have been used");
+                        next();
                     }
                     return [3 /*break*/, 3];
                 case 2:
@@ -157,6 +156,7 @@ var credentialController = {
                     return [3 /*break*/, 3];
                 case 2:
                     e_4 = _b.sent();
+                    console.log(e_4);
                     handler_1.serverErrorResponse(res, e_4);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
@@ -187,7 +187,7 @@ var credentialController = {
                 case 2:
                     customer_id = _b.sent();
                     if (customer_id.customer_id) {
-                        token = customerCreate_1.default(customer_id, email.toLowerCase());
+                        token = customerCreate_1.default(customer_id.customer_id, email.toLowerCase());
                         console.log({
                             message: "Auth successful",
                             token: token,

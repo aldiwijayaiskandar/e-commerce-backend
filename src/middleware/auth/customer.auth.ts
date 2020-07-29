@@ -12,6 +12,7 @@ export default (
     const token = req.headers.authorization;
     const decoded = jwt.verify(token, `${env.jwt_customer_key}`);
     req.userData = decoded;
+    console.log(decoded);
     next();
   } catch (e) {
     return clientError.unauthorized(res);

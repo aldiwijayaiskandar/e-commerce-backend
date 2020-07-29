@@ -11,6 +11,7 @@ exports.default = (function (req, res, next) {
         var token = req.headers.authorization;
         var decoded = jsonwebtoken_1.default.verify(token, "" + config_1.env.jwt_customer_key);
         req.userData = decoded;
+        console.log(decoded);
         next();
     }
     catch (e) {

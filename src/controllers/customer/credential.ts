@@ -26,36 +26,30 @@ const credentialController = {
   searchEmail: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const email: String = req.body.email;
-      const data = await sequelize.query(
-        `select COUNT(*) as emailFound from customer where LOWER(email) = ${email.toLocaleLowerCase()}`,
-        {
-          type: QueryTypes.SELECT,
-        }
-      );
-      const found: any = data[0];
-      if (found.emailFound) {
-        next();
-      } else {
+      let found = await SequelizeModel.Customer.count({
+        where: { email: email },
+      });
+      if (found) {
         clientError.beenUsed(res, "Email have been used");
+      } else {
+        next();
       }
     } catch (e) {
+      console.log(e);
       serverErrorResponse(res, e);
     }
   },
   searchPhoneNum: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const phone_number: String = req.body.phone_number;
-      const data = await sequelize.query(
-        `select COUNT(*) as phoneFound from customer where phone_number = ${phone_number.toLocaleLowerCase()}`,
-        {
-          type: QueryTypes.SELECT,
-        }
-      );
-      const found: any = data[0];
-      if (found.phoneFound) {
-        next();
-      } else {
+      let found = await SequelizeModel.Customer.count({
+        where: { phone_number: phone_number },
+      });
+
+      if (found) {
         clientError.beenUsed(res, "Phone Number have been used");
+      } else {
+        next();
       }
     } catch (e) {
       serverErrorResponse(res, e);
@@ -89,6 +83,7 @@ const credentialController = {
         phone_num: phone_number,
       });
     } catch (e) {
+      console.log(e);
       serverErrorResponse(res, e);
     }
   },
@@ -108,7 +103,10 @@ const credentialController = {
           where: { email: email.toLowerCase(), password: encryptPass },
         });
         if (customer_id.customer_id) {
-          const token = createCustomerToken(customer_id, email.toLowerCase());
+          const token = createCustomerToken(
+            customer_id.customer_id,
+            email.toLowerCase()
+          );
           console.log({
             message: "Auth successful",
             token: token,
