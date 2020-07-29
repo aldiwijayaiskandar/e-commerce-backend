@@ -1,0 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var controllers_1 = require("../../../controllers");
+var router = express_1.Router();
+router
+    //   .get("/", labelController.getAll)
+    .get("/:category_id", controllers_1.labelController.getById);
+exports.default = router;
