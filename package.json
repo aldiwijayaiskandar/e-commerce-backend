@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
     "dev": "tsnd --respawn ./src/server.ts",
-    "prod": "tsc && node './build/server.js"
+    "prod": "tsc && forever --minUptime 1000 --spinSleepTime 1000 start ./build/server.js"
   },
   "author": "",
   "license": "ISC",
