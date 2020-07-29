@@ -34,7 +34,7 @@ const customerAdminController = {
         }
       );
       const count: any = data[0];
-      success.get(res, count);
+      success.get(res, count.count);
     } catch (e) {
       serverErrorResponse(res, e);
     }

@@ -204,7 +204,8 @@ const transactionController = {
           type: QueryTypes.SELECT,
         }
       );
-      success.get(res, data);
+      const count: any = data[0];
+      success.get(res, count.revenue);
     } catch (e) {
       serverErrorResponse(res, e);
     }
@@ -217,7 +218,8 @@ const transactionController = {
           type: QueryTypes.SELECT,
         }
       );
-      success.get(res, data);
+      const count: any = data[0];
+      success.get(res, count);
     } catch (e) {
       serverErrorResponse(res, e);
     }
