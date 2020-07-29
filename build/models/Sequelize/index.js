@@ -11,8 +11,10 @@ var Customer_1 = __importDefault(require("./Customer"));
 var Admin_1 = __importDefault(require("./Admin"));
 var Item_1 = __importDefault(require("./Item"));
 var ItemProvinsi_1 = __importDefault(require("./ItemProvinsi"));
+var TransactionItem_1 = __importDefault(require("./TransactionItem"));
 var SequelizeModel = {
     Transaction: Transaction_1.default(db_1.default, sequelize_1.default),
+    TransactionItem: TransactionItem_1.default(db_1.default, sequelize_1.default),
     Customer: Customer_1.default(db_1.default, sequelize_1.default),
     Admin: Admin_1.default(db_1.default, sequelize_1.default),
     Item: Item_1.default(db_1.default, sequelize_1.default),

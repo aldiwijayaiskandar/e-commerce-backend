@@ -145,19 +145,25 @@ const transactionController = {
         rekening_pribadi: true,
         no_rek: "6240830963",
       });
+
       for (let i = 0; i < cart_items.length; i++) {
         cart_items[i].transaction_id = newT.transaction_id;
-        await sequelize.query(
-          `insert into transaction_item values(${newT.transaction_id},${cart_items[i].item_id},${cart_items[i].qty},${cart_items[i].price})`,
-          {
-            type: QueryTypes.INSERT,
-          }
-        );
       }
-      const data = await sequelize.query(
-        `select * from transaction where transaction_id = ${newT.transaction_id}`,
-        { type: QueryTypes.SELECT }
-      );
+      for (let i = 0; i < cart_items.length; i++) {
+        cart_items[i].transaction_id = newT.transaction_id;
+      }
+
+      const tItem = await SequelizeModel.TransactionItem.bulkCreate(cart_items);
+
+      // const data = await sequelize.query(
+      //   `select * from transaction where transaction_id = ${newT.transaction_id}`,
+      //   { type: QueryTypes.SELECT }
+      // );
+      const data = await SequelizeModel.Transaction.findOne({
+        where: {
+          transaction_id: newT.transaction_id,
+        },
+      });
       res.status(201).json({
         status: "SUCCESS",
         data: data,

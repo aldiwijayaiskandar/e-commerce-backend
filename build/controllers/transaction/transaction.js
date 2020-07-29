@@ -202,11 +202,11 @@ var transactionController = {
         });
     }); },
     rekeningPribadiTransactioN: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, address_id, cart_items, amount, delivery_fee, newT, i, data, e_6;
+        var _a, address_id, cart_items, amount, delivery_fee, newT, i, i, tItem, data, e_6;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _b.trys.push([0, 7, , 8]);
+                    _b.trys.push([0, 4, , 5]);
                     _a = req.body, address_id = _a.address_id, cart_items = _a.cart_items, amount = _a.amount, delivery_fee = _a.delivery_fee;
                     return [4 /*yield*/, Sequelize_1.SequelizeModel.Transaction.create({
                             address_id: address_id,
@@ -218,33 +218,32 @@ var transactionController = {
                         })];
                 case 1:
                     newT = _b.sent();
-                    i = 0;
-                    _b.label = 2;
+                    for (i = 0; i < cart_items.length; i++) {
+                        cart_items[i].transaction_id = newT.transaction_id;
+                    }
+                    for (i = 0; i < cart_items.length; i++) {
+                        cart_items[i].transaction_id = newT.transaction_id;
+                    }
+                    return [4 /*yield*/, Sequelize_1.SequelizeModel.TransactionItem.bulkCreate(cart_items)];
                 case 2:
-                    if (!(i < cart_items.length)) return [3 /*break*/, 5];
-                    cart_items[i].transaction_id = newT.transaction_id;
-                    return [4 /*yield*/, db_1.default.query("insert into transaction_item values(" + newT.transaction_id + "," + cart_items[i].item_id + "," + cart_items[i].qty + "," + cart_items[i].price + ")", {
-                            type: sequelize_1.QueryTypes.INSERT,
+                    tItem = _b.sent();
+                    return [4 /*yield*/, Sequelize_1.SequelizeModel.Transaction.findOne({
+                            where: {
+                                transaction_id: newT.transaction_id,
+                            },
                         })];
                 case 3:
-                    _b.sent();
-                    _b.label = 4;
-                case 4:
-                    i++;
-                    return [3 /*break*/, 2];
-                case 5: return [4 /*yield*/, db_1.default.query("select * from transaction where transaction_id = " + newT.transaction_id, { type: sequelize_1.QueryTypes.SELECT })];
-                case 6:
                     data = _b.sent();
                     res.status(201).json({
                         status: "SUCCESS",
                         data: data,
                     });
-                    return [3 /*break*/, 8];
-                case 7:
+                    return [3 /*break*/, 5];
+                case 4:
                     e_6 = _b.sent();
                     handler_1.serverErrorResponse(res, e_6);
-                    return [3 /*break*/, 8];
-                case 8: return [2 /*return*/];
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
             }
         });
     }); },
