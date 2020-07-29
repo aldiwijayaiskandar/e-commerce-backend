@@ -440,7 +440,7 @@ var transactionController = {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, db_1.default.query("select i.item_id,i.name,SUM(i.satuan*ti.qty) as itemqty,si.name as satuan,d.nama as dropzone,t.schedule_time,t.arrived_time from\n          customer_address as ca,kelurahan as k,kelurahan_dropzone as kd,dropzone as d,transaction as t,transaction_item as ti,item as i,satuan_item as si where\n          t.arrived_time IS NULL AND\n          t.address_id = ca.address_id AND\n          ca.kelurahan_id = k.kelurahan_id AND\n          k.kelurahan_id = kd.kelurahan_id AND\n          kd.dropzone_id = d.dropzone_id AND\n          t.transaction_id = ti.transaction_id AND\n          ti.item_id = i.item_id AND\n          i.satuan_id = si.satuan_id AND\n          t.payment_time is not null GROUP BY(i.item_id,si.satuan_id, d.dropzone_id,t.schedule_time,t.arrived_time) order by schedule_time asc;", {
+                    return [4 /*yield*/, db_1.default.query("select transaction_id,amount,schedule_time from transaction where payment_time is not null and arrived_time is null order by payment_time asc", {
                             type: sequelize_1.QueryTypes.SELECT,
                         })];
                 case 1:
@@ -471,7 +471,7 @@ var transactionController = {
                         })];
                 case 2:
                     user = _a.sent();
-                    handler_1.success.get(res, { detail: data, user: user[0] });
+                    res.status(200).json({ detail: data, user: user[0] });
                     return [3 /*break*/, 4];
                 case 3:
                     e_16 = _a.sent();
