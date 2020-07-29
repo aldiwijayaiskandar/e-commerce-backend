@@ -319,7 +319,7 @@ var transactionController = {
                 case 1:
                     data = _a.sent();
                     count = data[0];
-                    handler_1.success.get(res, count);
+                    handler_1.success.get(res, count.count);
                     return [3 /*break*/, 3];
                 case 2:
                     e_9 = _a.sent();
