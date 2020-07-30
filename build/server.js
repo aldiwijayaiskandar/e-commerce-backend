@@ -14,6 +14,9 @@ app.get("/admin/*", function (req, res) {
 });
 app.use("/privacy", express_1.default.static(path_1.default.join(__dirname, "../", "privacy")));
 app.get("/privacy", express_1.default.static(path_1.default.join(__dirname, "../", "privacy")));
+app.get("/android", function (req, res) {
+    res.redirect("https://play.google.com/store/apps/details?id=com.antarblanja.customer.app");
+});
 app.use("/", express_1.default.static(path_1.default.join(__dirname, "../", "web_main/build_main")));
 middlewares_1.default(app, express_1.default);
 routes_1.default(app);

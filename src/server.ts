@@ -20,6 +20,12 @@ app.use("/privacy", express.static(path.join(__dirname, "../", "privacy")));
 
 app.get("/privacy", express.static(path.join(__dirname, "../", "privacy")));
 
+app.get("/android", (req, res) => {
+  res.redirect(
+    "https://play.google.com/store/apps/details?id=com.antarblanja.customer.app"
+  );
+});
+
 app.use(
   "/",
   express.static(path.join(__dirname, "../", "web_main/build_main"))
