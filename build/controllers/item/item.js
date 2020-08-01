@@ -105,7 +105,7 @@ var itemController = {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, db_1.default.query("select i.item_id as item_id,i.name as item_name,i.satuan as item_kuantitas, si.name as item_satuan,\n         sc.name as subcategory_name,sc2.name as subcategory2_name,c.name as category_name\n          from item as i,subcategory as sc,subcategory2 as sc2,category as c,  satuan_item as si,item_provinsi as ip where \n          i.item_id = ip.item_id and\n          i.subcategory_id = sc.subcategory_id and\n          i.subcategory_id2 = sc2.subcategory2_id and\n          sc.category_id = c.category_id and\n          si.satuan_id = i.satuan_id order by i.item_id asc", {
+                    return [4 /*yield*/, db_1.default.query("select i.item_id as item_id,i.name as item_name,i.satuan as item_kuantitas, si.name as item_satuan,\n         sc.name as subcategory_name,sc2.name as subcategory2_name,c.name as category_name\n          from item as i,subcategory as sc,subcategory2 as sc2,category as c,  satuan_item as si,item_provinsi as ip where \n          i.item_id = ip.item_id and\n          i.subcategory_id = sc.subcategory_id and\n          i.subcategory_id2 = sc2.subcategory2_id and\n          sc.category_id = c.category_id and\n          si.satuan_id = i.satuan_id order by(i.item_id) asc", {
                             type: sequelize_1.QueryTypes.SELECT,
                         })];
                 case 1:
