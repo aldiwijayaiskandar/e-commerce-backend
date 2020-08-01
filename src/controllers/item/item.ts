@@ -30,9 +30,7 @@ const itemController = {
   search: async (req: Request, res: Response) => {
     try {
       const category_id = req.query.category_id as String;
-      console.log(category_id);
       const search = req.query.search as String;
-      console.log(search);
       var any = `ANY(select category_id from category)`;
       var sql = `select i.item_id as item_id,i.image as item_image, i.name as item_name,ip.price,i.satuan as item_kuantitas,si.name as item_satuan,
                         sc.name as subcategory_name,sc2.name as subcategory2_name, c.name as category_name
@@ -43,14 +41,12 @@ const itemController = {
                           sc.category_id = c.category_id and
                           si.satuan_id = i.satuan_id and
                           sc.category_id =  ${
-                            req.query.category_id != "null"
+                            req.query.category_id?.length
                               ? req.query.category_id
                               : any
                           } and
                           LOWER(i.name) LIKE '%${
-                            search.toLowerCase() != "null"
-                              ? search.toLowerCase()
-                              : ""
+                            search.length ? search.toLowerCase() : ""
                           }%';`;
       let data = await sequelize.query(sql, {
         type: QueryTypes.SELECT,

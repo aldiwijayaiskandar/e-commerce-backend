@@ -70,29 +70,25 @@ var itemController = {
     }); },
     search: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var category_id, search, any, sql, data, e_2;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    _b.trys.push([0, 2, , 3]);
                     category_id = req.query.category_id;
-                    console.log(category_id);
                     search = req.query.search;
-                    console.log(search);
                     any = "ANY(select category_id from category)";
-                    sql = "select i.item_id as item_id,i.image as item_image, i.name as item_name,ip.price,i.satuan as item_kuantitas,si.name as item_satuan,\n                        sc.name as subcategory_name,sc2.name as subcategory2_name, c.name as category_name\n                        from item as i,subcategory as sc,subcategory2 as sc2,category as c,satuan_item as si,item_provinsi as ip where\n                          ip.item_id = i.item_id and\n                          i.subcategory_id = sc.subcategory_id and\n                          i.subcategory_id2 = sc2.subcategory2_id and\n                          sc.category_id = c.category_id and\n                          si.satuan_id = i.satuan_id and\n                          sc.category_id =  " + (req.query.category_id != "null"
-                        ? req.query.category_id
-                        : any) + " and\n                          LOWER(i.name) LIKE '%" + (search.toLowerCase() != "null"
-                        ? search.toLowerCase()
-                        : "") + "%';";
+                    sql = "select i.item_id as item_id,i.image as item_image, i.name as item_name,ip.price,i.satuan as item_kuantitas,si.name as item_satuan,\n                        sc.name as subcategory_name,sc2.name as subcategory2_name, c.name as category_name\n                        from item as i,subcategory as sc,subcategory2 as sc2,category as c,satuan_item as si,item_provinsi as ip where\n                          ip.item_id = i.item_id and\n                          i.subcategory_id = sc.subcategory_id and\n                          i.subcategory_id2 = sc2.subcategory2_id and\n                          sc.category_id = c.category_id and\n                          si.satuan_id = i.satuan_id and\n                          sc.category_id =  " + (((_a = req.query.category_id) === null || _a === void 0 ? void 0 : _a.length) ? req.query.category_id
+                        : any) + " and\n                          LOWER(i.name) LIKE '%" + (search.length ? search.toLowerCase() : "") + "%';";
                     return [4 /*yield*/, db_1.default.query(sql, {
                             type: sequelize_1.QueryTypes.SELECT,
                         })];
                 case 1:
-                    data = _a.sent();
+                    data = _b.sent();
                     handler_1.success.get(res, data);
                     return [3 /*break*/, 3];
                 case 2:
-                    e_2 = _a.sent();
+                    e_2 = _b.sent();
                     handler_1.serverErrorResponse(res, e_2);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
