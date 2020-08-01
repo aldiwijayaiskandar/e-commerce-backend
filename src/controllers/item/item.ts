@@ -70,7 +70,7 @@ const itemController = {
           i.subcategory_id = sc.subcategory_id and
           i.subcategory_id2 = sc2.subcategory2_id and
           sc.category_id = c.category_id and
-          si.satuan_id = i.satuan_id order by i.item_id asc`,
+          si.satuan_id = i.satuan_id order by(i.item_id) asc`,
         {
           type: QueryTypes.SELECT,
         }
