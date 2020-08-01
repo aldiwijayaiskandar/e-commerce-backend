@@ -75,6 +75,7 @@ const itemController = {
           type: QueryTypes.SELECT,
         }
       );
+      success.get(res, data);
     } catch (e) {
       serverErrorResponse(res, e);
     }

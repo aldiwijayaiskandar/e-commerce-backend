@@ -110,6 +110,7 @@ var itemController = {
                         })];
                 case 1:
                     data = _a.sent();
+                    handler_1.success.get(res, data);
                     return [3 /*break*/, 3];
                 case 2:
                     e_3 = _a.sent();
