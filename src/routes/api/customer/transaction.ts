@@ -5,11 +5,6 @@ import customerAuth from "../../../middleware/auth/customer.auth";
 const router = Router();
 
 router
-  .get(
-    "/:transaction_id",
-    customerAuth,
-    transactionController.getCustomerTransactionDetail
-  )
   .get("/bank", transactionController.getVABank)
   .get(
     "/ongoing",
@@ -20,6 +15,11 @@ router
     "/done",
     customerAuth,
     transactionController.getCompletedCustomerTransaction
+  )
+  .get(
+    "/:transaction_id",
+    customerAuth,
+    transactionController.getCustomerTransactionDetail
   )
   .get("/va/:id", transactionController.getXenditVA)
   .post("/", customerAuth, transactionController.xenditTransaction)
