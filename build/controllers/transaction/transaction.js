@@ -91,40 +91,43 @@ var transactionController = {
             }
         });
     }); },
-    getTransactionDetail: function (req, res) {
-        try {
-        }
-        catch (e) {
-            handler_1.serverErrorResponse(res, e);
-        }
-    },
+    getCustomerTransactionDetail: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var transactionData, transactionItem, e_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, db_1.default.query("\n        select transaction_id,amount,order_time,payment_time,arrived_time,schedule_time,delivery_fee,customer_address.alamat \n        from transaction,customer_address where\n        transaction.address_id = customer_address.address_id and\n        transaction_id = " + req.params.transaction_id + ";", {
+                            type: sequelize_1.QueryTypes.SELECT,
+                        })];
+                case 1:
+                    transactionData = _a.sent();
+                    return [4 /*yield*/, db_1.default.query("\n        select i.item_id,ti.qty,ti.price,ti.qty*ti.price as total_price,i.name,image,satuan as itemQty,si.name as satuan\n        from transaction_item as ti,item as i,satuan_item as si where \n        ti.item_id  = i.item_id and \n        si.satuan_id = i.satuan_id and\n        transaction_id = " + req.params.transaction_id + ";", {
+                            type: sequelize_1.QueryTypes.SELECT,
+                        })];
+                case 2:
+                    transactionItem = _a.sent();
+                    handler_1.success.get(res, {
+                        transaction: transactionData[0],
+                        item: transactionItem,
+                    });
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_3 = _a.sent();
+                    handler_1.serverErrorResponse(res, e_3);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    }); },
     getVABank: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, e_3;
+        var data, e_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     console.log("get VA");
                     return [4 /*yield*/, virtualAcc_1.getBank()];
-                case 1:
-                    data = _a.sent();
-                    handler_1.success.get(res, data);
-                    return [3 /*break*/, 3];
-                case 2:
-                    e_3 = _a.sent();
-                    handler_1.serverErrorResponse(res, e_3);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    }); },
-    getXenditVA: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, e_4;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, virtualAcc_1.getVA(req.params.id)];
                 case 1:
                     data = _a.sent();
                     handler_1.success.get(res, data);
@@ -137,8 +140,27 @@ var transactionController = {
             }
         });
     }); },
+    getXenditVA: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var data, e_5;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, virtualAcc_1.getVA(req.params.id)];
+                case 1:
+                    data = _a.sent();
+                    handler_1.success.get(res, data);
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_5 = _a.sent();
+                    handler_1.serverErrorResponse(res, e_5);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); },
     xenditTransaction: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, address_id, cart_items, amount, bank_code, delivery_fee, userData, _b, phone_number, name, va, time, newT, i, data, e_5;
+        var _a, address_id, cart_items, amount, bank_code, delivery_fee, userData, _b, phone_number, name, va, time, newT, i, data, e_6;
         var _c;
         return __generator(this, function (_d) {
             switch (_d.label) {
@@ -193,16 +215,16 @@ var transactionController = {
                     }
                     return [3 /*break*/, 10];
                 case 9:
-                    e_5 = _d.sent();
-                    console.log(e_5);
-                    handler_1.serverErrorResponse(res, e_5);
+                    e_6 = _d.sent();
+                    console.log(e_6);
+                    handler_1.serverErrorResponse(res, e_6);
                     return [3 /*break*/, 10];
                 case 10: return [2 /*return*/];
             }
         });
     }); },
     rekeningPribadiTransactioN: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, address_id, cart_items, amount, delivery_fee, newT, i, i, tItem, data, e_6;
+        var _a, address_id, cart_items, amount, delivery_fee, newT, i, i, tItem, data, e_7;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -240,15 +262,15 @@ var transactionController = {
                     });
                     return [3 /*break*/, 5];
                 case 4:
-                    e_6 = _b.sent();
-                    handler_1.serverErrorResponse(res, e_6);
+                    e_7 = _b.sent();
+                    handler_1.serverErrorResponse(res, e_7);
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
             }
         });
     }); },
     xenditPaymentCallBack: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var value, a, a, estimatedTime, paidTransaction, e_7;
+        var value, a, a, estimatedTime, paidTransaction, e_8;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -276,8 +298,8 @@ var transactionController = {
                     console.log(req.body);
                     return [3 /*break*/, 3];
                 case 2:
-                    e_7 = _a.sent();
-                    handler_1.serverErrorResponse(res, e_7);
+                    e_8 = _a.sent();
+                    handler_1.serverErrorResponse(res, e_8);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
@@ -285,7 +307,7 @@ var transactionController = {
     }); },
     // admin
     getRevenue: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, count, e_8;
+        var data, count, e_9;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -299,15 +321,15 @@ var transactionController = {
                     handler_1.success.get(res, count.revenue);
                     return [3 /*break*/, 3];
                 case 2:
-                    e_8 = _a.sent();
-                    handler_1.serverErrorResponse(res, e_8);
+                    e_9 = _a.sent();
+                    handler_1.serverErrorResponse(res, e_9);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });
     }); },
     getTransactionCount: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, count, e_9;
+        var data, count, e_10;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -321,27 +343,6 @@ var transactionController = {
                     handler_1.success.get(res, count.count);
                     return [3 /*break*/, 3];
                 case 2:
-                    e_9 = _a.sent();
-                    handler_1.serverErrorResponse(res, e_9);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    }); },
-    getGraphRevenue: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, e_10;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, db_1.default.query("select \n            sum(case when extract('month' from payment_time) = 1 then amount else 0 end ) as Jan,\n            sum(case when extract('month' from payment_time) = 2 then amount else 0 end ) as Feb,\n            sum(case when extract('month' from payment_time) = 3 then amount else 0 end ) as Mar,\n            sum(case when extract('month' from payment_time) = 4 then amount else 0 end ) as Apr,\n            sum(case when extract('month' from payment_time) = 5 then amount else 0 end ) as Mei,\n            sum(case when extract('month' from payment_time) = 6 then amount else 0 end ) as Jun,\n            sum(case when extract('month' from payment_time) = 7 then amount else 0 end ) as Jul,\n            sum(case when extract('month' from payment_time) = 8 then amount else 0 end ) as Aug,\n            sum(case when extract('month' from payment_time) = 9 then amount else 0 end ) as Sep,\n            sum(case when extract('month' from payment_time) = 10 then amount else 0 end ) as Oct,\n            sum(case when extract('month' from payment_time) = 11 then amount else 0 end ) as Nov,\n            sum(case when extract('month' from payment_time) = 12 then amount else 0 end ) as Des\n            from transaction", {
-                            type: sequelize_1.QueryTypes.SELECT,
-                        })];
-                case 1:
-                    data = _a.sent();
-                    handler_1.success.get(res, data);
-                    return [3 /*break*/, 3];
-                case 2:
                     e_10 = _a.sent();
                     handler_1.serverErrorResponse(res, e_10);
                     return [3 /*break*/, 3];
@@ -349,13 +350,13 @@ var transactionController = {
             }
         });
     }); },
-    getGraph: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    getGraphRevenue: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var data, e_11;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, db_1.default.query("select \n            sum(case when extract('month' from payment_time) = 1 then 1 else 0 end ) as Jan,\n            sum(case when extract('month' from payment_time) = 2 then 1 else 0 end ) as Feb,\n            sum(case when extract('month' from payment_time) = 3 then 1 else 0 end ) as Mar,\n            sum(case when extract('month' from payment_time) = 4 then 1 else 0 end ) as Apr,\n            sum(case when extract('month' from payment_time) = 5 then 1 else 0 end ) as Mei,\n            sum(case when extract('month' from payment_time) = 6 then 1 else 0 end ) as Jun,\n            sum(case when extract('month' from payment_time) = 7 then 1 else 0 end ) as Jul,\n            sum(case when extract('month' from payment_time) = 8 then 1 else 0 end ) as Aug,\n            sum(case when extract('month' from payment_time) = 9 then 1 else 0 end ) as Sep,\n            sum(case when extract('month' from payment_time) = 10 then 1 else 0 end ) as Oct,\n            sum(case when extract('month' from payment_time) = 11 then 1 else 0 end ) as Nov,\n            sum(case when extract('month' from payment_time) = 12 then 1 else 0 end ) as Des\n            from transaction;", {
+                    return [4 /*yield*/, db_1.default.query("select \n            sum(case when extract('month' from payment_time) = 1 then amount else 0 end ) as Jan,\n            sum(case when extract('month' from payment_time) = 2 then amount else 0 end ) as Feb,\n            sum(case when extract('month' from payment_time) = 3 then amount else 0 end ) as Mar,\n            sum(case when extract('month' from payment_time) = 4 then amount else 0 end ) as Apr,\n            sum(case when extract('month' from payment_time) = 5 then amount else 0 end ) as Mei,\n            sum(case when extract('month' from payment_time) = 6 then amount else 0 end ) as Jun,\n            sum(case when extract('month' from payment_time) = 7 then amount else 0 end ) as Jul,\n            sum(case when extract('month' from payment_time) = 8 then amount else 0 end ) as Aug,\n            sum(case when extract('month' from payment_time) = 9 then amount else 0 end ) as Sep,\n            sum(case when extract('month' from payment_time) = 10 then amount else 0 end ) as Oct,\n            sum(case when extract('month' from payment_time) = 11 then amount else 0 end ) as Nov,\n            sum(case when extract('month' from payment_time) = 12 then amount else 0 end ) as Des\n            from transaction", {
                             type: sequelize_1.QueryTypes.SELECT,
                         })];
                 case 1:
@@ -370,13 +371,13 @@ var transactionController = {
             }
         });
     }); },
-    getOrderedItem: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    getGraph: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var data, e_12;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, db_1.default.query("select i.item_id,i.name,SUM(i.satuan*ti.qty) as itemqty,si.name as satuan,d.nama as dropzone,t.schedule_time,t.arrived_time from\n        customer_address as ca,kelurahan as k,kelurahan_dropzone as kd,dropzone as d,transaction as t,transaction_item as ti,item as i,satuan_item as si where\n        t.arrived_time IS NULL AND\n        t.address_id = ca.address_id AND\n        ca.kelurahan_id = k.kelurahan_id AND\n        k.kelurahan_id = kd.kelurahan_id AND\n        kd.dropzone_id = d.dropzone_id AND\n        t.transaction_id = ti.transaction_id AND\n        ti.item_id = i.item_id AND\n        i.satuan_id = si.satuan_id AND\n        t.payment_time is not null GROUP BY(i.item_id,si.satuan_id, d.dropzone_id,t.schedule_time,t.arrived_time) order by schedule_time asc;", {
+                    return [4 /*yield*/, db_1.default.query("select \n            sum(case when extract('month' from payment_time) = 1 then 1 else 0 end ) as Jan,\n            sum(case when extract('month' from payment_time) = 2 then 1 else 0 end ) as Feb,\n            sum(case when extract('month' from payment_time) = 3 then 1 else 0 end ) as Mar,\n            sum(case when extract('month' from payment_time) = 4 then 1 else 0 end ) as Apr,\n            sum(case when extract('month' from payment_time) = 5 then 1 else 0 end ) as Mei,\n            sum(case when extract('month' from payment_time) = 6 then 1 else 0 end ) as Jun,\n            sum(case when extract('month' from payment_time) = 7 then 1 else 0 end ) as Jul,\n            sum(case when extract('month' from payment_time) = 8 then 1 else 0 end ) as Aug,\n            sum(case when extract('month' from payment_time) = 9 then 1 else 0 end ) as Sep,\n            sum(case when extract('month' from payment_time) = 10 then 1 else 0 end ) as Oct,\n            sum(case when extract('month' from payment_time) = 11 then 1 else 0 end ) as Nov,\n            sum(case when extract('month' from payment_time) = 12 then 1 else 0 end ) as Des\n            from transaction;", {
                             type: sequelize_1.QueryTypes.SELECT,
                         })];
                 case 1:
@@ -391,13 +392,13 @@ var transactionController = {
             }
         });
     }); },
-    getAll: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    getOrderedItem: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var data, e_13;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, db_1.default.query("select transaction_id,amount,arrived_time from transaction where payment_time is not null and arrived_time is not null;", {
+                    return [4 /*yield*/, db_1.default.query("select i.item_id,i.name,SUM(i.satuan*ti.qty) as itemqty,si.name as satuan,d.nama as dropzone,t.schedule_time,t.arrived_time from\n        customer_address as ca,kelurahan as k,kelurahan_dropzone as kd,dropzone as d,transaction as t,transaction_item as ti,item as i,satuan_item as si where\n        t.arrived_time IS NULL AND\n        t.address_id = ca.address_id AND\n        ca.kelurahan_id = k.kelurahan_id AND\n        k.kelurahan_id = kd.kelurahan_id AND\n        kd.dropzone_id = d.dropzone_id AND\n        t.transaction_id = ti.transaction_id AND\n        ti.item_id = i.item_id AND\n        i.satuan_id = si.satuan_id AND\n        t.payment_time is not null GROUP BY(i.item_id,si.satuan_id, d.dropzone_id,t.schedule_time,t.arrived_time) order by schedule_time asc;", {
                             type: sequelize_1.QueryTypes.SELECT,
                         })];
                 case 1:
@@ -412,13 +413,13 @@ var transactionController = {
             }
         });
     }); },
-    getUnpaidTransaction: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    getAll: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var data, e_14;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, db_1.default.query("SELECT t.transaction_id,c.name,t.amount from transaction as t,customer_address as ca,customer as c where \n          ca.address_id = t.address_id AND\n          ca.customer_id = c.customer_id AND \n          t.payment_time is null AND\n          rekening_pribadi = true AND\n          EXTRACT (DAY FROM (NOW()::timestamp - order_time::timestamp)) <= 1;", {
+                    return [4 /*yield*/, db_1.default.query("select transaction_id,amount,arrived_time from transaction where payment_time is not null and arrived_time is not null;", {
                             type: sequelize_1.QueryTypes.SELECT,
                         })];
                 case 1:
@@ -433,13 +434,13 @@ var transactionController = {
             }
         });
     }); },
-    getOrder: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    getUnpaidTransaction: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var data, e_15;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, db_1.default.query("select transaction_id,amount,schedule_time from transaction where payment_time is not null and arrived_time is null order by payment_time asc", {
+                    return [4 /*yield*/, db_1.default.query("SELECT t.transaction_id,c.name,t.amount from transaction as t,customer_address as ca,customer as c where \n          ca.address_id = t.address_id AND\n          ca.customer_id = c.customer_id AND \n          t.payment_time is null AND\n          rekening_pribadi = true AND\n          EXTRACT (DAY FROM (NOW()::timestamp - order_time::timestamp)) <= 1;", {
                             type: sequelize_1.QueryTypes.SELECT,
                         })];
                 case 1:
@@ -454,8 +455,29 @@ var transactionController = {
             }
         });
     }); },
+    getOrder: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var data, e_16;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, db_1.default.query("select transaction_id,amount,schedule_time from transaction where payment_time is not null and arrived_time is null order by payment_time asc", {
+                            type: sequelize_1.QueryTypes.SELECT,
+                        })];
+                case 1:
+                    data = _a.sent();
+                    handler_1.success.get(res, data);
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_16 = _a.sent();
+                    handler_1.serverErrorResponse(res, e_16);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); },
     getDetail: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, user, e_16;
+        var data, user, e_17;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -473,15 +495,15 @@ var transactionController = {
                     res.status(200).json({ detail: data, user: user[0] });
                     return [3 /*break*/, 4];
                 case 3:
-                    e_16 = _a.sent();
-                    handler_1.serverErrorResponse(res, e_16);
+                    e_17 = _a.sent();
+                    handler_1.serverErrorResponse(res, e_17);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
         });
     }); },
     transactionToPaid: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var estimatedTime, data, e_17;
+        var estimatedTime, data, e_18;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -507,15 +529,15 @@ var transactionController = {
                     handler_1.success.get(res, data);
                     return [3 /*break*/, 3];
                 case 2:
-                    e_17 = _a.sent();
-                    handler_1.serverErrorResponse(res, e_17);
+                    e_18 = _a.sent();
+                    handler_1.serverErrorResponse(res, e_18);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });
     }); },
     finishTransaction: function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var data, e_18;
+        var data, e_19;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -532,8 +554,8 @@ var transactionController = {
                     handler_1.success.get(res, data);
                     return [3 /*break*/, 3];
                 case 2:
-                    e_18 = _a.sent();
-                    handler_1.serverErrorResponse(res, e_18);
+                    e_19 = _a.sent();
+                    handler_1.serverErrorResponse(res, e_19);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }

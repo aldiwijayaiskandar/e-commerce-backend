@@ -149,10 +149,11 @@ var customerCartController = {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     customer_id = req.userData.customer_id;
-                    item_id = req.body.item_id;
+                    item_id = req.query.item_id;
                     return [4 /*yield*/, db_1.default.query("\n          delete from customer_cart where customer_id =" + customer_id + " AND item_id = " + item_id, { type: sequelize_1.QueryTypes.DELETE })];
                 case 1:
                     data = _a.sent();
+                    console.log(data);
                     handler_1.success.get(res, data);
                     return [3 /*break*/, 3];
                 case 2:

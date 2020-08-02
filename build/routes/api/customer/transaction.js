@@ -8,6 +8,7 @@ var controllers_1 = require("../../../controllers");
 var customer_auth_1 = __importDefault(require("../../../middleware/auth/customer.auth"));
 var router = express_1.Router();
 router
+    .get("/:transaction_id", customer_auth_1.default, controllers_1.transactionController.getCustomerTransactionDetail)
     .get("/bank", controllers_1.transactionController.getVABank)
     .get("/ongoing", customer_auth_1.default, controllers_1.transactionController.getOngoingCustomerTransaction)
     .get("/done", customer_auth_1.default, controllers_1.transactionController.getCompletedCustomerTransaction)

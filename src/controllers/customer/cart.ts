@@ -95,12 +95,13 @@ const customerCartController = {
   removeItem: async (req: CustomerAuthRequest, res: Response) => {
     try {
       const { customer_id }: any = req.userData;
-      const { item_id } = req.body;
+      const { item_id } = req.query;
       const data = await sequelize.query(
         `
           delete from customer_cart where customer_id =${customer_id} AND item_id = ${item_id}`,
         { type: QueryTypes.DELETE }
       );
+      console.log(data);
       success.get(res, data);
     } catch (e) {
       serverErrorResponse(res, e);

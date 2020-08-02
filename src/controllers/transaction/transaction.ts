@@ -48,8 +48,36 @@ const transactionController = {
       serverErrorResponse(res, e);
     }
   },
-  getTransactionDetail: (req: CustomerAuthRequest, res: Response) => {
+  getCustomerTransactionDetail: async (
+    req: CustomerAuthRequest,
+    res: Response
+  ) => {
     try {
+      const transactionData = await sequelize.query(
+        `
+        select transaction_id,amount,order_time,payment_time,arrived_time,schedule_time,delivery_fee,customer_address.alamat 
+        from transaction,customer_address where
+        transaction.address_id = customer_address.address_id and
+        transaction_id = ${req.params.transaction_id};`,
+        {
+          type: QueryTypes.SELECT,
+        }
+      );
+      const transactionItem = await sequelize.query(
+        `
+        select i.item_id,ti.qty,ti.price,ti.qty*ti.price as total_price,i.name,image,satuan as itemQty,si.name as satuan
+        from transaction_item as ti,item as i,satuan_item as si where 
+        ti.item_id  = i.item_id and 
+        si.satuan_id = i.satuan_id and
+        transaction_id = ${req.params.transaction_id};`,
+        {
+          type: QueryTypes.SELECT,
+        }
+      );
+      success.get(res, {
+        transaction: transactionData[0],
+        item: transactionItem,
+      });
     } catch (e) {
       serverErrorResponse(res, e);
     }
