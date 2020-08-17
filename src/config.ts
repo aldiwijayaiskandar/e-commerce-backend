@@ -13,6 +13,8 @@ const env = {
   aws_key_id: process.env.AWS_KEY_ID,
   aws_secret_key: process.env.AWS_SECRET_KEY,
   aws_bucket_name: process.env.AWS_BUCKET_NAME,
+  google_client_id: process.env.GOOGLE_CLIENT_ID,
+  google_client_secret: process.env.GOOGLE_CLIENT_SECRET,
 };
 
 export { env };
