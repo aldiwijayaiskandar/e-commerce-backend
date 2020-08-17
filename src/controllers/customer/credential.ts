@@ -8,7 +8,6 @@ import { SequelizeModel } from "../../models/Sequelize";
 import { CustomerAuthRequest } from "../../models";
 import { success, serverErrorResponse, clientError } from "../handler";
 import sequelize from "../../db/db";
-import ServerError from "../../../build/controllers/handler/ServerError";
 
 const client = new OAuth2Client(
   "739476099878-ubasuv8a4mlfgjn8opegtpblj6qegne8.apps.googleusercontent.com"
@@ -160,7 +159,7 @@ const credentialController = {
       next();
     } catch (e) {
       console.log("google token verivy error:", e);
-      ServerError(res, e);
+      serverErrorResponse(res, e);
     }
   },
   searchGoogleEmail: async (
